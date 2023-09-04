@@ -6,12 +6,16 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-clap = "4.4.2"
+chrono = "0.4.28"
+clap = { version = "4.4.2", features = ["cargo", "derive"] }
+colored = "2.0.4"
 regex = { version = "1.9.5", features = ["logging", "use_std"] }
+tracing = { version = "0.1.37", features = ["log"] }
+tracing-subscriber = "0.3.17"
 
 [profile.release]
 opt-level = 3
-debug = true
+debug = false
 debug-assertions = false
 overflow-checks = false
 lto = true
