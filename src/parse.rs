@@ -6,12 +6,14 @@ pub fn try_parse_args(args: &crate::Args) -> Result<crate::ParsedArgs, error::My
     let dir = try_parse_dir(args)?;
     let regex = try_parse_regex(args)?;
     let sort = try_parse_sort(args)?;
-    let verbose = try_parse_verbose(args);
+    let verbose = args.verbose;
+    let limit = args.limit;
     Ok(crate::ParsedArgs {
         dir,
         regex,
         sort,
         verbose,
+        limit,
     })
 }
 
@@ -54,6 +56,3 @@ fn try_parse_sort(args: &crate::Args) -> Result<find::OrderType, error::MyError>
     }
 }
 
-fn try_parse_verbose(args: &crate::Args) -> bool {
-    args.verbose
-}

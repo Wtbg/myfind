@@ -10,9 +10,15 @@ pub fn error_output(e: error::MyError) -> ! {
     err.exit()
 }
 
-pub fn result_output(matches: &Vec<DirEntry>, verbose: bool) {
+pub fn result_output(matches: &Vec<DirEntry>, verbose: bool, limit: Option<usize>) {
+    let mut limit = limit.unwrap_or(500);
     if !verbose {
         for entry in matches {
+            if limit == 0 {
+                break;
+            } else {
+                limit = limit - 1;
+            }
             let path = entry.path().to_path_buf();
             let removed_filename = path.parent().unwrap();
             let filename = path.file_name().unwrap();
@@ -25,7 +31,7 @@ pub fn result_output(matches: &Vec<DirEntry>, verbose: bool) {
         }
     } else {
         let count = matches.len();
-        let forprint = format!("Found {} matches", count);
+        let forprint = format!("Total Found {} matches", count);
         let forprint = forprint.as_str();
         println!("{}", forprint.green());
         println!("-----------------");
@@ -36,6 +42,11 @@ pub fn result_output(matches: &Vec<DirEntry>, verbose: bool) {
             "Path".green()
         );
         for entry in matches {
+            if limit == 0 {
+                break;
+            } else {
+                limit = limit - 1;
+            }
             let path = entry.path().to_path_buf();
             let metadata = fs::metadata(&path).unwrap();
             let access = metadata.accessed().unwrap();

@@ -20,6 +20,9 @@ pub struct Args {
     ///Verbose output
     #[clap(short, long)]
     verbose: bool,
+    ///Limit the number of results
+    #[clap(short, long)]
+    limit: Option<usize>,
 }
 
 #[derive(Debug)]
@@ -28,6 +31,7 @@ pub struct ParsedArgs {
     pub regex: Regex,
     pub sort: find::OrderType,
     pub verbose: bool,
+    pub limit: Option<usize>,
 }
 fn main() {
     let subscriber = FmtSubscriber::builder().with_max_level(Level::ERROR).finish();
@@ -53,5 +57,5 @@ fn main() {
             output::error_output(e)
         }
     };
-    output::result_output(&find_result, parse.verbose);
+    output::result_output(&find_result, parse.verbose, parse.limit);
 }
